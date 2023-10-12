@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft. All rights reserved.
+// Copyright (c) Microsoft. All rights reserved.
 
 using System;
 using System.Linq;
@@ -47,7 +47,8 @@ public sealed class Program
         builder.Services
             .AddCopilotChatOptions(builder.Configuration)
             .AddCopilotChatPlannerServices()
-            .AddPersistentChatStore();
+            .AddPersistentChatStore()
+            .AddPersistentOcrSupport();
 
         // Add SignalR as the real time relay service
         builder.Services.AddSignalR();
@@ -85,12 +86,9 @@ public sealed class Program
         app.MapHub<MessageRelayHub>("/messageRelayHub");
 
         // Enable Swagger for development environments.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
-
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        
         // Start the service
         Task runTask = app.RunAsync();
 

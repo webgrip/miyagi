@@ -5,10 +5,9 @@ using GBB.Miyagi.RecommendationService.plugins;
 using GBB.Miyagi.RecommendationService.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.SemanticKernel;
-using Microsoft.SemanticKernel.Connectors.AI.OpenAI.Tokenizers;
 using Microsoft.SemanticKernel.Orchestration;
 using Microsoft.SemanticKernel.Planning;
-using Microsoft.SemanticKernel.TemplateEngine;
+using Microsoft.SemanticKernel.TemplateEngine.Prompt;
 
 namespace GBB.Miyagi.RecommendationService.Controllers;
 
@@ -45,6 +44,7 @@ public class AssetsController : ControllerBase
         Stopwatch sw = new();
         sw.Start();
         // ========= Import semantic functions as plugins =========
+        log?.LogDebug("Path: {S}", Directory.GetCurrentDirectory());
         var pluginsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "plugins");
         var advisorPlugin = _kernel.ImportSemanticSkillFromDirectory(pluginsDirectory, "AdvisorPlugin");
 
@@ -74,8 +74,6 @@ public class AssetsController : ControllerBase
         var renderedPrompt = await promptRenderer.RenderAsync(
             ask,
             context);
-        var numTokens = GPT3Tokenizer.Encode(renderedPrompt).Count;
-        log?.LogDebug("Number of Tokens: {N}", numTokens);
         log?.LogDebug("Rendered Prompt: {S}", renderedPrompt);
         log?.LogDebug("Result: {S}", result.Result);
         if (result.Variables.TryGetValue("stepCount", out var stepCount)) log?.LogDebug("Steps Taken: {N}", stepCount);
@@ -122,8 +120,6 @@ public class AssetsController : ControllerBase
             advisorPlugin["PortfolioAllocation"]);
 
         // ========= Log token count, which determines cost =========
-        var numTokens = GPT3Tokenizer.Encode(result.ToString()).Count;
-        ConsoleLogger.Log.LogDebug("Number of Tokens: {N}", numTokens);
         ConsoleLogger.Log.LogDebug("Context: {S}", context.ToString());
         ConsoleLogger.Log.LogDebug("Result: {0}", result.Result);
 

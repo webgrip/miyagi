@@ -14,7 +14,7 @@ This folder contains the microservices that implement the [use cases](https://ia
 | Chat (Q&A) | [sk-copilot-chat-api](../services/sk-copilot-chat-api/) |
 | Synthetic data | [user-service](./user-service/java/) |
 
-### Discriminative 
+### Discriminative (Traditional ML)
 
 | Use Case | Subfolder |
 |----------|-----------|
@@ -29,6 +29,7 @@ This folder contains the microservices that implement the [use cases](https://ia
 | Use Case | Subfolder |
 |----------|-----------|
 | Agency & Planning | [auto-investing with miyagi agent](../sandbox/usecases/auto-invest-agency-planning.ipynb) |
+| Retrieval-augmented Generation (RaG) - focused showcase| [focused-rag](../sandbox/usecases/rag/dotnet/Getting-started.ipynb) |
 | Multimodal conversion (text-to-image) | [reddog-repo](https://github.com/Azure/reddog-solutions) [inference](https://huggingface.co/thegovind/reddogpillmodel512) |
 | Long term memory | [copilot-chat-api](./sk-copilot-chat-api/dotnet/) |
 | Semantic Search |[TBD - Enterprise search with ACS](#) |
